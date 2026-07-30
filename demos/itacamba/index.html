@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demo WhatsApp - Itacamba</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- MENÚ DE PROYECTOS -->
+<div class="project-menu">
+
+    <div class="project-item">
+        <button onclick="toggleProjectMenu('menuFlujo1')">
+            Proceso de confirmacion de pedido <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+        <div class="project-dropdown" id="menuFlujo1">
+
+            <button onclick="verFlujo('flujo1')">
+                Ver flujo
+            </button>
+
+            <button onclick="verProyecto('flujo1')">
+                Iniciar demo
+            </button>
+
+        </div>
+    </div>
+
+    <div class="project-item">
+
+        <button onclick="toggleProjectMenu('menuFlujo2')">
+            Consulta y gestion de puntos V1<i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+
+        <div class="project-dropdown" id="menuFlujo2">
+
+            <button onclick="verFlujo('flujo2')">
+                Ver flujo
+            </button>
+
+            <button onclick="verProyecto('flujo2')">
+                Iniciar demo
+            </button>
+
+        </div>
+
+    </div>
+
+<div class="project-item">
+
+    <button onclick="toggleProjectMenu('menuFlujo3')">
+        Consulta y gestion de puntos V2 <i class="fa-solid fa-chevron-down"></i>
+    </button>
+
+
+    <div class="project-dropdown" id="menuFlujo3">
+
+        <button onclick="verFlujo('flujo3')">
+            Ver flujo
+        </button>
+
+        <button onclick="verProyecto('flujo3')">
+            Iniciar demo
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="app">
+
+    <!-- PANEL IZQUIERDO -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-header">
+
+         <!--   <img src="https://i.pravatar.cc/40" class="avatar">  -->
+            <img src="images/wp.png" class="avatar">
+
+            <div class="icons">
+                <i class="fa-solid fa-users"></i>
+                <i class="fa-solid fa-circle-notch"></i>
+                <i class="fa-solid fa-message"></i>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+
+        </div>
+
+        <div class="search">
+
+            <input
+                type="text"
+                placeholder="Buscar o empezar un chat nuevo">
+
+        </div>
+
+        <div class="contact active">
+
+            <img
+                src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+
+            <div>
+
+                <h4>Itacamba</h4>
+
+                <span>Bot Empresarial</span>
+
+            </div>
+
+        </div>
+        
+        <!-- Branding -->
+        <div class="sidebar-branding">
+          <img src="images/bannerb4d.png" alt="Itacamba">
+        </div>
+    </aside>
+
+    <!-- PANEL DERECHO -->
+
+    <main class="chat">
+        <!-- Vista de flujo -->
+        <div class="flow-view" id="flowView">
+
+            <img 
+                src="images/Confirmacion%20de%20pedido%20FLUJO1.png" 
+                alt="Flujo Itacamba">
+
+        </div>        
+        <div class="chat-header">
+
+            <div class="contact-info">
+
+                <img
+                    src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+
+                <div>
+
+                    <h3>Itacamba</h3>
+
+                    <span id="status">
+                        En línea
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="header-icons">
+
+                <i class="fa-solid fa-video"></i>
+
+                <i class="fa-solid fa-phone"></i>
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+
+            </div>
+
+        </div>
+
+        <!-- Conversación -->
+
+        <div
+            class="messages"
+            id="messages">
+
+        </div>
+
+        <!-- Escribiendo -->
+
+        <div
+            class="typing"
+            id="typing">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+        <!-- Área inferior -->
+
+        <div class="footer">
+
+            <i class="fa-regular fa-face-smile"></i>
+
+            <input
+                type="text"
+                placeholder="Escribe un mensaje"
+                disabled>
+
+            <i class="fa-solid fa-paperclip"></i>
+
+            <i class="fa-solid fa-camera"></i>
+
+        </div>
+
+    </main>
+
+</div>
+   <!-- 
+<script src="js/flujos/flujo1.js"></script>
+    -->
+<script src="js/flujos/flujo1.js"></script>
+<script src="js/flujos/flujo2.js"></script>
+<script src="js/flujos/flujo3.js"></script>
+
+<script src="js/main.js"></script>
+<script src="js/menu.js"></script>
+
+</body>
+
+</html>
