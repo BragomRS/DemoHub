@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot Banco - Cobranza</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #111b21;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .phone {
+            width: 95vw;
+            height: 95vh;
+
+            max-width: 500px;
+            max-height: 1280px;
+
+            background: #0b141a;
+            border-radius: 25px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 0, 0, .5);
+        }
+
+        /* HEADER */
+
+        .header {
+            height: 70px;
+            background: #202c33;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: white;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+        }
+
+        .header-info h3 {
+            font-size: 16px;
+        }
+
+        .header-info span {
+            font-size: 12px;
+            color: #8696a0;
+        }
+
+        /* CHAT */
+
+        .chat {
+            flex: 1;
+            background-image: url('https://w0.peakpx.com/wallpaper/557/521/HD-wallpaper-whatsapp-v-background-doodle-pattern-patterns-whatsapp.jpg');
+            background-size: cover;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 13px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .received {
+            background: #202c33;
+            color: white;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .sent {
+            background: #005c4b;
+            color: white;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .time {
+            display: block;
+            font-size: 11px;
+            margin-top: 5px;
+            text-align: right;
+            opacity: .7;
+        }
+
+        /* BOTONES */
+
+        .option-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .option-buttons button {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #00a884;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .option-buttons button:hover {
+            opacity: .9;
+        }
+
+        /* INPUT */
+
+        .footer {
+            background: #202c33;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer input {
+            flex: 1;
+            border: none;
+            outline: none;
+            border-radius: 25px;
+            padding: 12px 15px;
+            background: #2a3942;
+            color: white;
+            font-size: 14px;
+        }
+
+        .footer button {
+            width: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #00a884;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .footer button:hover {
+            opacity: .9;
+        }
+
+        .link {
+            color: #53bdeb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <img src="https://play-lh.googleusercontent.com/g4tCTokTu2VraIx1y-mP7vjcZ_liM-cb0kFrCROzehma9WxAirAURva_Ij8tbFno1ght=w480-h960-rw"
+                alt="Logo" class="avatar" />
+
+            <div class="header-info">
+                <h3>Banco Fortaleza</h3>
+                <span>en línea</span>
+            </div>
+
+        </div>
+
+        <!-- CHAT -->
+
+        <div class="chat" id="chat"></div>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje" />
+
+            <button onclick="sendMessage()">➤</button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        /* VARIABLES */
+
+        const chat = document.getElementById("chat");
+
+        /* DATOS CLIENTE */
+
+        const cliente = {
+            nombre: "Brandon",
+            producto: "Crédito Personal",
+            fecha: "25/05/2026",
+            link: "https://pagos.bancofortaleza.com"
+        };
+
+        /* HORA */
+
+        function getCurrentTime() {
+
+            const now = new Date();
+
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+
+            return `${hours}:${minutes}`;
+        }
+
+        /* CREAR MENSAJE */
+
+        function addMessage(text, type) {
+
+            const message = document.createElement("div");
+
+            message.classList.add("message", type);
+
+            message.innerHTML = `
+        ${text}
+        <span class="time">${getCurrentTime()}</span>
+    `;
+
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        /* MENSAJE USUARIO */
+
+        function addUserMessage(text) {
+
+            addMessage(text, "sent");
+
+        }
+
+        /* MOSTRAR OPCIONES PRINCIPALES */
+
+        function showMainOptions() {
+
+            const message = document.createElement("div");
+
+            message.classList.add("message", "received");
+
+            message.innerHTML = `
+    Hola, <b>${cliente.nombre}</b> 👋<br><br>
+
+        Te recordamos que tu cuota de 
+        <b>${cliente.producto}</b> 
+        vence el <b>${cliente.fecha}</b>.<br><br>
+
+        Si ya realizaste el pago, ignora este mensaje.
+        Selecciona una opción:
+
+        <div class="option-buttons">
+
+            <button onclick="pagarFlow()">
+                💳 Pagar
+            </button>
+
+            <button onclick="verDeudaFlow()">
+                📄 Ver deuda
+            </button>
+
+            <button onclick="ayudaFlow()">
+                ❓ Ayuda
+            </button>
+
+        </div>
+
+        <span class="time">${getCurrentTime()}</span>
+    `;
+
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        /* TIENES OTRAS CONSULTAS? */
+
+        function otraConsultaFlow() {
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            <b>¿Deseas realizar otra consulta?</b>
+
+            <div class="option-buttons">
+
+                <button onclick="nuevaConsultaFlow()">
+                    ✅ Sí, tengo otra consulta
+                </button>
+
+                <button onclick="despedida()">
+                    ❌ Terminar
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 700);
+
+        }
+
+        /* NUEVA CONSULTA */
+
+        function nuevaConsultaFlow() {
+
+            addUserMessage("✅ Sí, tengo otra consulta");
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            <b>¿Qué otra consulta tienes?</b>
+
+            <div class="option-buttons">
+
+                <button onclick="pagarFlow()">
+                    💳 Pagar
+                </button>
+
+                <button onclick="verDeudaFlow()">
+                    📄 Ver deuda
+                </button>
+
+                <button onclick="ayudaFlow()">
+                    ❓ Ayuda
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 700);
+
+        }
+
+
+        /* FLUJO PAGAR */
+
+        function pagarFlow() {
+
+            addUserMessage("💳 Pagar");
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            <b>💳 Opciones de pago</b>
+
+            <div>
+                Puedes realizar tu pago de las siguientes formas:
+            </div>
+
+            <div class="option-buttons">
+
+                <button onclick="qrFlow()">
+                    💸 Pago rápido por QR
+                </button>
+
+                <button onclick="appMovilwebFlow()">
+                    📱🌐 Pago por App o Web
+                </button>
+
+                <button onclick="agenciaFlow()">
+                    🏦 En agencia
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 700);
+
+        }
+
+        /* APP MOVIL 
+        
+        function appMovilFlow(){
+        
+            addUserMessage("📱 App móvil");
+        
+            setTimeout(() => {
+        
+                addMessage(
+                    `
+                    <b>📱 Pagar desde la app móvil</b><br><br>
+        
+                        Sigue estos pasos:<br><br>
+        
+                        1️⃣ Ingresa a la app móvil<br>
+                        2️⃣ Inicia sesión con tus datos<br>
+                        3️⃣ Selecciona la opción Pagos o Créditos<br>
+                        4️⃣ Elige tu crédito pendiente<br>
+                        5️⃣ Confirma el monto y realiza el pago ✅<br><br>
+        
+                        💡 Recibirás una confirmación al finalizar
+                    `,
+                "received"
+                );
+                
+        
+            }, 700);
+            setTimeout(() => {
+        
+                otraConsultaFlow();
+        
+            }, 2000);
+        }
+        */
+
+        /* VARIABLES QR */
+
+        let qrData = {
+            ci: "",
+            paso: 0
+        };
+
+        /* FLUJO QR */
+
+        function qrFlow() {
+
+            addUserMessage("💸 Pago por QR");
+
+            qrData.paso = 1;
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            <b>💸 Pago mediante QR</b><br><br>
+
+            Para continuar, por favor ingresa tu número de documento o CI.
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+        }
+
+        /* CAPTURAR RESPUESTAS QR */
+
+        function handleQrFlow(text) {
+            /* PASO 1 - VALIDAR CI */
+
+            if (qrData.paso === 1) {
+
+                qrData.ci = text;
+
+                const clienteEncontrado = clientesQR.find(
+                    cliente => cliente.ci === text
+                );
+
+                /* CLIENTE NO EXISTE */
+
+                if (!clienteEncontrado) {
+
+                    setTimeout(() => {
+
+                        addMessage(
+                            `
+                    ❌ No encontramos un cliente asociado a ese documento.<br><br>
+
+                    Por favor verifica el número e intenta nuevamente.
+                    `,
+                            "received"
+                        );
+
+                    }, 700);
+
+                    return true;
+                }
+
+                /* GUARDAR CLIENTE */
+
+                qrData.cliente = clienteEncontrado;
+
+                qrData.paso = 2;
+
+                /* VALIDAR SI TIENE CUOTAS */
+
+                if (clienteEncontrado.cuotas.length === 0) {
+
+                    setTimeout(() => {
+
+                        addMessage(
+                            `
+                    ✅ Cliente validado correctamente.<br><br>
+
+                    Titular: <b>${clienteEncontrado.nombre}</b><br><br>
+
+                    🎉 No tienes cuotas pendientes disponibles actualmente.
+                    `,
+                            "received"
+                        );
+
+                    }, 700);
+
+                    setTimeout(() => {
+
+                        otraConsultaFlow();
+
+                    }, 2500);
+
+                    return true;
+                }
+
+                /* SI TIENE CUOTAS */
+
+                setTimeout(() => {
+
+                    addMessage(
+                        `
+                ✅ Cliente validado correctamente.<br><br>
+
+                Titular: <b>${clienteEncontrado.nombre}</b><br><br>
+
+                Selecciona la cuota que deseas pagar:
+                `,
+                        "received"
+                    );
+
+                }, 700);
+
+                setTimeout(() => {
+
+                    mostrarCuotasQR();
+
+                }, 1500);
+
+                return true;
+            }
+        }
+
+
+
+        /* MOSTRAR CUOTAS */
+
+        function mostrarCuotasQR() {
+
+            const cliente = qrData.cliente;
+
+            const message = document.createElement("div");
+
+            message.classList.add("message", "received");
+
+            let botones = "";
+
+            cliente.cuotas.forEach((cuota, index) => {
+
+                botones += `
+            <button onclick="generarQR('${cuota.descripcion}', ${cuota.monto})">
+                💳 ${cuota.descripcion} - Bs ${cuota.monto}
+            </button>
+        `;
+            });
+
+            message.innerHTML = `
+        <b>📄 Cuotas disponibles</b><br><br>
+
+        Cliente: <b>${cliente.nombre}</b><br><br>
+
+        <div class="option-buttons">
+
+            ${botones}
+
+        </div>
+
+        <span class="time">${getCurrentTime()}</span>
+    `;
+
+            chat.appendChild(message);
+
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+
+
+        let cuotaSeleccionada = null;
+        /* GENERAR QR */
+
+        function generarQR(descripcion, monto) {
+
+            /* GUARDAR CUOTA SELECCIONADA */
+
+            cuotaSeleccionada = {
+                descripcion,
+                monto
+            };
+
+            addUserMessage(`💳 ${descripcion} - Bs ${monto}`);
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            <b>✅ QR generado correctamente</b><br><br>
+
+            Concepto: <b>${descripcion}</b><br>
+            Monto: <b>Bs ${monto}</b><br><br>
+
+            <img 
+                src="./qr.png"
+                alt="QR de pago"
+                style="
+                    width:220px;
+                    max-width:100%;
+                    border-radius:12px;
+                    margin-top:10px;
+                "
+            ><br><br>
+
+            ⏰ El QR tendrá validez por 15 minutos.<br><br>
+
+            <div class="option-buttons">
+
+                <button onclick="pagoRealizadoFlow()">
+                    ✅ Pago realizado
+                </button>
+
+                <button onclick="cancelarPagoFlow()">
+                    ❌ Cancelar
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 700);
+        }
+
+        function pagoRealizadoFlow() {
+
+            addUserMessage("✅ Pago realizado");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            ⏳ Verificando pago realizado...
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                /* ELIMINAR CUOTA PAGADA */
+
+                if (qrData.cliente && cuotaSeleccionada) {
+
+                    qrData.cliente.cuotas = qrData.cliente.cuotas.filter(
+                        cuota =>
+                            !(
+                                cuota.descripcion === cuotaSeleccionada.descripcion &&
+                                cuota.monto === cuotaSeleccionada.monto
+                            )
+                    );
+                }
+
+                addMessage(
+                    `
+            <b>✅ Pago realizado correctamente</b><br><br>
+
+            Tu cuota fue procesada exitosamente.<br><br>
+
+            💡 El saldo pendiente fue actualizado.
+            `,
+                    "received"
+                );
+
+            }, 2500);
+
+            setTimeout(() => {
+
+                /* SI YA NO TIENE CUOTAS */
+
+                if (qrData.cliente.cuotas.length === 0) {
+
+                    addMessage(
+                        `
+                🎉 No tienes cuotas pendientes actualmente.
+                `,
+                        "received"
+                    );
+                }
+
+            }, 3500);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 5000);
+
+        }
+        /* CANCELAR PAGO */
+
+        function cancelarPagoFlow() {
+
+            addUserMessage("❌ Cancelar");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            ⚠️ Operación cancelada correctamente.
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2000);
+
+        }
+
+
+        /* APP MOVIL O WEB */
+
+        function appMovilwebFlow() {
+
+            addUserMessage("📱🌐 Pago por App o Web");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+             <b>📱🌐 Pago por App o Web</b><br><br>
+
+                Puedes realizar el pago de tu crédito desde nuestros canales digitales de forma rápida y segura.<br><br>
+                
+                Sigue estos pasos:<br><br>
+                1️⃣ Inicia sesión en la App móvil o Banca Web<br>
+
+                📱 <a 
+                    href="https://play.google.com/store/apps/details?id=io.pocketbank.hb.fortaleza&hl=es_BO" 
+                    target="_blank"
+                    style="color:#53bdeb;"
+                >
+                    Google Play Store
+                    </a><br>
+                🔗 <a 
+                    href="https://www.bancofortaleza.com.bo/banca-digital/" 
+                    target="_blank"
+                    style="color:#53bdeb;"
+                >
+                    www.bancofortaleza.com.bo
+                </a><br> 
+                2️⃣ Selecciona la opción Pagos o Créditos<br>
+                3️⃣ Elige tu crédito pendiente<br>
+                4️⃣ Confirma el monto y realiza el pago ✅<br><br>
+
+                💡 Recibirás una confirmación al finalizar
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2000);
+        }
+
+        /* AGENCIA */
+
+        function agenciaFlow() {
+
+            addUserMessage("🏦 En agencia");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            <b>🏦 Pago en agencia</b><br><br>
+
+            Puedes realizar tu pago en cualquier agencia Banco Fortaleza.<br><br>
+
+            📍 Consulta agencias y cajeros disponibles aquí:<br>
+
+            <a 
+                href="https://maps-bfo-edcsgkbeerfqadgx.eastus-01.azurewebsites.net/" 
+                target="_blank"
+                style="color:#53bdeb;"
+            >
+                Ver agencias y cajeros
+            </a>
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2000);
+        }
+
+        /* FLUJO VER DEUDA */
+
+        function verDeudaFlow() {
+
+            addUserMessage("📄 Ver deuda");
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            <b>📄 Consulta tu deuda</b><br><br>
+
+            Puedes revisar el estado de tu crédito de forma rápida y segura:
+
+            <div class="option-buttons">
+
+                <button onclick="deudaChatFlow()">
+                    📋 Revisar por este medio
+                </button>
+
+                <button onclick="deudaAppMovilWebFlow()">
+                    📱🌐 Por App Movil o Web
+                </button>
+
+                <button onclick="deudaAgenciaFlow()">
+                    🏢 Agencia
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 700);
+
+        }
+
+let deudaData = {
+    paso: 0,
+    ci: "",
+    cliente: null
+};
+
+function deudaChatFlow() {
+
+    addUserMessage("📋 Revisar por este medio");
+
+    deudaData.paso = 1;
+
+    setTimeout(() => {
+
+        addMessage(
+            `
+            <b>📄 Consulta de deuda</b><br><br>
+
+            Para continuar, por favor ingresa tu número de documento o CI.
+            `,
+            "received"
+        );
+
+    }, 700);
+}
+
+function handleDeudaFlow(text) {
+
+    /* PASO 1 - VALIDAR CI */
+
+    if (deudaData.paso === 1) {
+
+        deudaData.ci = text;
+
+        const clienteEncontrado = clientesQR.find(
+            cliente => cliente.ci === text
+        );
+
+        /* CLIENTE NO EXISTE */
+
+        if (!clienteEncontrado) {
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+                    ❌ No encontramos un cliente asociado a ese documento.<br><br>
+
+                    Por favor verifica el número e intenta nuevamente.
+                    `,
+                    "received"
+                );
+
+            }, 700);
+
+            return true;
+        }
+
+        /* GUARDAR CLIENTE */
+
+        deudaData.cliente = clienteEncontrado;
+
+        /* VALIDAR SI TIENE DEUDAS */
+
+        if (clienteEncontrado.cuotas.length === 0) {
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+                    ✅ Cliente validado correctamente.<br><br>
+
+                    Titular: <b>${clienteEncontrado.nombre}</b><br><br>
+
+                    🎉 No tienes cuotas pendientes actualmente.
+                    `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2500);
+
+            deudaData.paso = 0;
+
+            return true;
+        }
+
+        /* MOSTRAR DEUDAS */
+
+        let cuotasHTML = "";
+
+        clienteEncontrado.cuotas.forEach(cuota => {
+
+            cuotasHTML += `
+                • ${cuota.descripcion} - <b>Bs ${cuota.monto}</b><br>
+            `;
+        });
+
+        setTimeout(() => {
+
+            addMessage(
+                `
+                <b>📄 Deudas pendientes</b><br><br>
+
+                Cliente: <b>${clienteEncontrado.nombre}</b><br><br>
+
+                ${cuotasHTML}<br>
+
+                ⚠️ Te recomendamos realizar el pago antes de la fecha de vencimiento.
+                `,
+                "received"
+            );
+
+        }, 700);
+
+        setTimeout(() => {
+
+            otraConsultaFlow();
+
+        }, 3000);
+
+        deudaData.paso = 0;
+
+        return true;
+    }
+}
+        /* DEUDA WEB */
+
+        function deudaAppMovilWebFlow() {
+
+            addUserMessage("📱🌐 Por App Movil o Web");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            <b>🌐 Consulta desde la app movil o desde la web del banco</b><br><br>
+
+            1️⃣ Inicia sesión en la App móvil o Banca Web<br>
+
+                📱 <a 
+                    href="https://play.google.com/store/apps/details?id=io.pocketbank.hb.fortaleza&hl=es_BO" 
+                    target="_blank"
+                    style="color:#53bdeb;"
+                >
+                    Google Play Store
+                    </a><br>
+                🔗 <a 
+                    href="https://www.bancofortaleza.com.bo/banca-digital/" 
+                    target="_blank"
+                    style="color:#53bdeb;"
+                >
+                    www.bancofortaleza.com.bo
+                </a><br> 
+            2️⃣ Ingresa a la sección Créditos<br>
+            3️⃣ Consulta el estado de tu deuda<br><br>
+
+            💡 Información disponible las 24 horas
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2000);
+
+        }
+
+        /* DEUDA AGENCIA */
+
+        function deudaAgenciaFlow() {
+
+            addUserMessage("🏢 Agencia");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            <b>🏢 Consulta en agencia</b><br><br>
+
+            Puedes acercarte a cualquier agencia Banco Fortaleza para consultar el estado de tu crédito.<br><br>
+
+            📍 Consulta agencias y cajeros disponibles aquí:<br>
+
+            <a 
+                href="https://maps-bfo-edcsgkbeerfqadgx.eastus-01.azurewebsites.net/" 
+                target="_blank"
+                style="color:#53bdeb;"
+            >
+                Ver agencias y cajeros
+            </a>
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2000);
+
+        }
+
+        /* FLUJO AYUDA */
+
+        function ayudaFlow() {
+
+            addUserMessage("❓ Ayuda");
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            <b>🤝 Centro de ayuda Banco Fortaleza</b><br><br>
+
+            Puedes comunicarte con nosotros mediante los siguientes canales:<br><br>
+
+            <b>💬 Asistencia por WhatsApp</b><br>
+            Chatea con nosotros para consultas rápidas sobre productos, servicios y soporte.<br><br>
+            📱 WhatsApp: 
+            <a 
+                href="https://wa.me/59177506266" 
+                target="_blank"
+                style="color:#53bdeb;"
+            >
+                775 06266
+            </a><br><br>
+
+            <b>☎️ Línea Gratuita de Atención</b><br>
+            Atención de lunes a viernes.<br><br>
+
+            📞 Línea gratuita: <b>800-17-3939</b><br><br>
+
+            <b>🏢 Agencias y sucursales</b><br>
+            Encuentra la agencia o cajero más cercano aquí:<br><br>
+            🔗 
+            <a 
+                href="https://maps-bfo-edcsgkbeerfqadgx.eastus-01.azurewebsites.net/" 
+                target="_blank"
+                style="color:#53bdeb;"
+            >
+                Ver agencias y cajeros
+            </a>
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                otraConsultaFlow();
+
+            }, 2500);
+
+        }
+
+        /* FINALIZAR FLUJO */
+
+        function finishFlow(option) {
+
+            addUserMessage(option);
+
+            setTimeout(() => {
+
+                addMessage(
+                    `
+            ✅ Operación registrada correctamente.<br><br>
+            Gracias por utilizar nuestros canales digitales.
+            `,
+                    "received"
+                );
+
+            }, 700);
+
+            setTimeout(() => {
+
+                despedida();
+
+            }, 2000);
+
+        }
+
+        /* DESPEDIDA */
+
+        function despedida() {
+
+            setTimeout(() => {
+
+                const message = document.createElement("div");
+
+                message.classList.add("message", "received");
+
+                message.innerHTML = `
+            👋 Gracias por contactarte con Banco Fortaleza.<br><br>
+
+            <div class="option-buttons">
+
+                <button onclick="reiniciarDemo()">
+                    🔄 Reiniciar demo
+                </button>
+
+            </div>
+
+            <span class="time">${getCurrentTime()}</span>
+        `;
+
+                chat.appendChild(message);
+
+                chat.scrollTop = chat.scrollHeight;
+
+            }, 1000);
+
+        }
+
+        /* REINICIAR DEMO */
+
+        function reiniciarDemo() {
+
+
+            /* LIMPIAR CHAT */
+
+            chat.innerHTML = "";
+
+            /* INICIAR NUEVAMENTE */
+
+            setTimeout(() => {
+
+                showMainOptions();
+
+            }, 700);
+
+        }
+
+        /* INPUT NORMAL */
+
+        function sendMessage() {
+
+            const input = document.getElementById("messageInput");
+
+            const text = input.value.trim();
+
+            if (text === "") return;
+
+            addMessage(text, "sent");
+
+            input.value = "";
+
+            /* VALIDAR SI ESTA EN FLUJO QR */
+
+            if (handleQrFlow(text)) {
+                return;
+            }
+
+            /* VALIDAR SI ESTA EN FLUJO DEUDA */
+
+            if (handleDeudaFlow(text)) {
+                return;
+            }}
+
+        /* BASE DE CLIENTES */
+
+        const clientesQR = [
+
+            {
+                ci: "1234567",
+                nombre: "Brandon Gomez",
+                cuotas: [
+                    {
+                        descripcion: "Cuota Mayo 2026",
+                        monto: 350
+                    }
+                ]
+            },
+
+            {
+                ci: "2345678",
+                nombre: "Emilia Pessoa",
+                cuotas: [
+                    {
+                        descripcion: "Cuota Abril 2026",
+                        monto: 420
+                    },
+                    {
+                        descripcion: "Cuota Mayo 2026",
+                        monto: 420
+                    }
+                ]
+            },
+
+            {
+                ci: "3456789",
+                nombre: "Carlos Rojas",
+                cuotas: [
+                    {
+                        descripcion: "Cuota Marzo 2026",
+                        monto: 510
+                    },
+                    {
+                        descripcion: "Cuota Abril 2026",
+                        monto: 510
+                    },
+                    {
+                        descripcion: "Cuota Mayo 2026",
+                        monto: 510
+                    }
+                ]
+            },
+
+            {
+                ci: "4567890",
+                nombre: "Lucia Méndez",
+                cuotas: [
+                    {
+                        descripcion: "Cuota Mayo 2026",
+                        monto: 275
+                    }
+                ]
+            },
+
+            {
+                ci: "5678901",
+                nombre: "Andrés Salvatierra",
+                cuotas: [
+                    {
+                        descripcion: "Cuota Abril 2026",
+                        monto: 680
+                    },
+                    {
+                        descripcion: "Cuota Mayo 2026",
+                        monto: 680
+                    }
+                ]
+            }
+
+        ];
+
+        /* ENTER */
+
+        document
+            .getElementById("messageInput")
+            .addEventListener("keypress", function (event) {
+
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+
+            });
+
+
+        setTimeout(() => {
+
+            showMainOptions();
+
+        }, 2500);
+
+    </script>
+
+</body>
+
+</html>

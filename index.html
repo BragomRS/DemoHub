@@ -2,15 +2,13 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Bridge4Digital Demo Hub</title>
 
-    <link rel="stylesheet" href="style.css">
-
+    <link rel="icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -20,40 +18,23 @@
     <aside class="sidebar">
 
         <div class="logo">
-
-            <h2>Bridge4Digital</h2>
-
-            <span>Demo Hub</span>
-
+            <button class="sidebar-toggle" id="sidebarToggle" type="button" aria-label="Contraer/expandir menú">☰</button>
+            <div class="logo-text">
+                <h2>Bridge4Digital</h2>
+                <span>Demos Hub</span>
+            </div>
         </div>
 
-        <div class="menu">
-
-            <button class="menu-item">
-
-                🏭 Cementeras
-
-            </button>
-
-        </div>
+        <nav class="menu" id="menu" aria-label="Categorías de demos"></nav>
 
     </aside>
 
-    <main class="content">
-
-        <h1>Bienvenido</h1>
-
-        <p>
-
-            Selecciona una industria para comenzar.
-
-        </p>
-
-    </main>
+    <main class="content" id="content"></main>
 
 </div>
 
-<script src="script.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/app.js"></script>
 
 </body>
 
