@@ -16,10 +16,105 @@
 
         body {
             background: #111b21;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* PAGINA */
+
+        .page {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* MENÚ LATERAL */
+
+        .side-menu {
+            width: 220px;
+            flex-shrink: 0;
+            background: #111b21;
+            border-right: 1px solid rgba(255, 255, 255, .08);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 24px 16px;
+        }
+
+        .side-menu button {
+            background: #202c33;
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .side-menu button:hover {
+            background: #2a3942;
+        }
+
+        /* CONTENIDO */
+
+        .main-view {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        /* VISTA DE FLUJO */
+
+        .flow-view {
+            display: none;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow: auto;
+            background: #0b141a;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+        .flow-view.active {
+            display: block;
+        }
+
+        .flow-view img {
+            width: 100%;
+            border-radius: 8px;
+            display: block;
+            cursor: zoom-in;
+            transition: .3s;
+        }
+
+        .flow-view.expanded {
+            position: fixed;
+            inset: 0;
+            max-width: none;
+            max-height: none;
+            background: rgba(0, 0, 0, .9);
+            border-radius: 0;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+        }
+
+        .flow-view.expanded img {
+            width: 1400px;
+            max-width: none;
+            border-radius: 8px;
+        }
+
+        .phone.hidden {
+            display: none;
         }
 
         .phone {
@@ -176,33 +271,56 @@
 
 <body>
 
-    <div class="phone">
+    <div class="page">
 
-        <!-- HEADER -->
+        <!-- MENÚ LATERAL -->
 
-        <div class="header">
+        <aside class="side-menu">
 
-            <img src="https://play-lh.googleusercontent.com/g4tCTokTu2VraIx1y-mP7vjcZ_liM-cb0kFrCROzehma9WxAirAURva_Ij8tbFno1ght=w480-h960-rw"
-                alt="Logo" class="avatar" />
+            <button onclick="verFlujo()">📊 Ver flujo</button>
+            <button onclick="iniciarDemo()">▶️ Iniciar demo</button>
 
-            <div class="header-info">
-                <h3>Banco Fortaleza</h3>
-                <span>en línea</span>
+        </aside>
+
+        <div class="main-view">
+
+            <!-- VISTA DE FLUJO -->
+
+            <div class="flow-view" id="flowView">
+                <img src="Diagrama%20de%20Banco%20Fortaleza.png" alt="Flujo Banco Fortaleza" />
             </div>
 
-        </div>
+            <div class="phone" id="phone">
 
-        <!-- CHAT -->
+                <!-- HEADER -->
 
-        <div class="chat" id="chat"></div>
+                <div class="header">
 
-        <!-- FOOTER -->
+                    <img src="https://play-lh.googleusercontent.com/g4tCTokTu2VraIx1y-mP7vjcZ_liM-cb0kFrCROzehma9WxAirAURva_Ij8tbFno1ght=w480-h960-rw"
+                        alt="Logo" class="avatar" />
 
-        <div class="footer">
+                    <div class="header-info">
+                        <h3>Banco Fortaleza</h3>
+                        <span>en línea</span>
+                    </div>
 
-            <input type="text" id="messageInput" placeholder="Escribe un mensaje" />
+                </div>
 
-            <button onclick="sendMessage()">➤</button>
+                <!-- CHAT -->
+
+                <div class="chat" id="chat"></div>
+
+                <!-- FOOTER -->
+
+                <div class="footer">
+
+                    <input type="text" id="messageInput" placeholder="Escribe un mensaje" />
+
+                    <button onclick="sendMessage()">➤</button>
+
+                </div>
+
+            </div>
 
         </div>
 
@@ -213,6 +331,39 @@
         /* VARIABLES */
 
         const chat = document.getElementById("chat");
+        const phone = document.getElementById("phone");
+        const flowView = document.getElementById("flowView");
+
+        /* MENÚ DEL PROYECTO */
+
+        function verFlujo() {
+
+            phone.classList.add("hidden");
+            flowView.classList.add("active");
+
+        }
+
+        /* AMPLIAR IMAGEN DEL FLUJO */
+
+        flowView.querySelector("img").addEventListener("click", () => {
+            flowView.classList.toggle("expanded");
+        });
+
+        function iniciarDemo() {
+
+            flowView.classList.remove("active");
+            flowView.classList.remove("expanded");
+            phone.classList.remove("hidden");
+
+            chat.innerHTML = "";
+
+            setTimeout(() => {
+
+                showMainOptions();
+
+            }, 700);
+
+        }
 
         /* DATOS CLIENTE */
 
@@ -1375,6 +1526,7 @@ function handleDeudaFlow(text) {
 
             });
 
+        /* INICIO AUTOMÁTICO */
 
         setTimeout(() => {
 
