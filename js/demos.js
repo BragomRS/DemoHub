@@ -20,6 +20,6 @@ const DEMOS = [
         category: "Cobranza",
         image: "demos/itacamba/images/bannerb4d.png",
         status: "Disponible",
-        url: "demos/Banco%20Fortaleza/Flujo-Bank%20-%20Inicio%20V2.76.html"
+        url: "demos/Banco%20Bot/Flujo-Bank%20-%20Inicio%20V2.76.html"
     }
 ];
