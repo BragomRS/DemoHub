@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banco Demo - Oferta DPF</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div class="page">
+
+        <!-- MENÚ LATERAL -->
+
+        <aside class="side-menu">
+
+            <div class="side-menu-header">
+                <div class="side-menu-header-text">
+                    <h2>Bridge4Digital</h2>
+                    <span>Demo Oferta Mkt</span>
+                </div>
+            </div>
+
+            <button onclick="verFlujo()">📊 Ver flujo</button>
+            <button onclick="iniciarDemo()">▶️ Iniciar demo</button>
+
+        </aside>
+
+        <div class="main-view">
+
+            <!-- VISTA DE FLUJO -->
+
+            <div class="flow-view" id="flowView">
+                <img src="images/Diagrama%20de%20Banco%20Bot.png" alt="Flujo Banco Oferta Mkt" />
+            </div>
+
+            <div class="phone" id="phone">
+
+                <!-- HEADER -->
+
+                <div class="header">
+
+                    <img src="images/wp.png"
+                        alt="Logo" class="avatar" />
+
+                    <div class="header-info">
+                        <h3>Banco Demo</h3>
+                        <span>en línea</span>
+                    </div>
+
+                    <div class="header-brand">
+                        <strong>Bridge4Digital</strong>
+                        <span>Demo Oferta Mkt</span>
+                    </div>
+
+                </div>
+
+                <!-- CHAT -->
+
+                <div class="chat" id="chat"></div>
+
+                <!-- FOOTER -->
+
+                <div class="footer">
+
+                    <input type="text" id="messageInput" placeholder="Escribe un mensaje" />
+
+                    <button onclick="sendMessage()">➤</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="js/engine.js"></script>
+    <script src="js/flujo.js"></script>
+
+</body>
+
+</html>

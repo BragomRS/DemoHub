@@ -21,5 +21,14 @@ const DEMOS = [
         image: "demos/itacamba/images/bannerb4d.png",
         status: "Disponible",
         url: "demos/Banco%20Bot/Flujo-Bank%20-%20Inicio%20V2.76.html"
+    },
+    {
+        id: 3,
+        title: "Banco Oferta Mkt",
+        description: "Bot de oferta de mercadeo por WhatsApp (DPF), basado en la misma UI de Banco Fortaleza pero con un flujo de conversación propio.",
+        category: "Marketing",
+        image: "demos/itacamba/images/bannerb4d.png",
+        status: "Disponible",
+        url: "demos/Banco%20oferta%20mkt%20dpf/index.html"
     }
 ];
