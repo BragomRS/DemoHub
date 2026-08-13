@@ -23,8 +23,6 @@ function iniciarFlujo() {
 
     addMessage(
         `
-        <img src="images/mkt%20msc.jpeg" alt="Depósito a Plazo Fijo - Banco Demo" class="message-image">
-
         👋 ¡Hola, <b>${cliente.nombre}</b>!<br><br>
 
         En Banco Demo queremos ayudarte a hacer crecer tus ahorros.<br><br>
