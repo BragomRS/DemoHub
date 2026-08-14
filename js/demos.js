@@ -30,5 +30,14 @@ const DEMOS = [
         image: "demos/itacamba/images/bannerb4d.png",
         status: "Disponible",
         url: "demos/Banco%20oferta%20mkt%20dpf/index.html"
+    },
+    {
+        id: 4,
+        title: "Entel Bot",
+        description: "Bot de ventas por WhatsApp para Entel: recargas y compra de paquetes MEgas PRO, con selección de plan y confirmación de pago.",
+        category: "Ventas",
+        image: "demos/Telco%20Ent/bannerb4d.png",
+        status: "Disponible",
+        url: "demos/Telco%20Ent/index.html"
     }
 ];

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Entel Bot · WhatsApp Demo</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+	<div class="page">
+
+		<aside class="side-menu">
+			<div class="side-menu-header">
+				<div class="side-menu-header-text">
+					<h2>Bridge4Digital</h2>
+					<span>Demo Entel</span>
+				</div>
+			</div>
+
+			<button id="verFlujoBtn">📊 Ver flujo</button>
+			<button id="iniciarDemoBtn">▶️ Iniciar demo</button>
+		</aside>
+
+		<div class="main-view">
+
+			<div class="flow-view" id="flowView">
+				<img src="flujo-entel.png" alt="Flujo Entel Bot">
+			</div>
+
+			<div class="app" id="phone">
+				<div class="chat-header">
+					<div class="back">‹</div>
+					<div class="avatar">EB</div>
+					<div class="header-info">
+						<div class="name">Entel Bot</div>
+						<div class="status" id="statusText">en línea</div>
+					</div>
+					<div class="header-icons">
+						<span>📹</span><span>📞</span><span>⋮</span>
+					</div>
+				</div>
+
+				<div class="chat-body" id="chatBody">
+					<div class="day-chip"><span>HOY</span></div>
+				</div>
+
+				<div class="chat-input">
+					<button class="icon-btn">😊</button>
+					<div class="input-pill">
+						<input id="textInput" type="text" placeholder="Escribe un mensaje" autocomplete="off">
+					</div>
+					<button class="icon-btn" style="font-size:18px;">📎</button>
+					<button class="send-btn" id="sendBtn">➤</button>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<script src="js/script.js"></script>
+</body>
+
+</html>
