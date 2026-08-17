@@ -44,6 +44,10 @@ function iniciarFlujo2(){
                 ⚠️ Reportar un problema
             </button>
 
+            <button onclick="menuDistribuidor()">
+                🧑‍💼 Soy distribuidor
+            </button>
+
         </div>
     `);
 
@@ -517,6 +521,326 @@ async function problema(texto){
 
         </div>
 
+    `);
+
+}
+
+/*=========================================================
+                SOY DISTRIBUIDOR
+=========================================================*/
+
+async function menuDistribuidor(){
+
+    escribir("Soy distribuidor","user");
+
+    await responder("Perfecto 👍");
+
+    await responder("Para identificarte como distribuidor necesito registrar tus datos.");
+
+    escribir(`
+        Ingresa tu código de distribuidor.
+
+        <div class="buttons">
+
+            <button onclick="validarDistribuidor()">
+                Ingresar código
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                VALIDACIÓN DE DISTRIBUIDOR
+=========================================================*/
+
+async function validarDistribuidor(){
+
+    escribir("4821","user");
+
+    await responder("Validando datos del distribuidor...");
+
+    mostrarTyping();
+
+    await esperar(2000);
+
+    ocultarTyping();
+
+    await responder("Distribuidor identificado correctamente ✅");
+
+    await responder(`
+        👤 <b>Distribuidor:</b> Distribuidor JPerez
+        <br>
+        🏷 <b>Código:</b> DIST-4821
+        <br>
+        📍 <b>Zona:</b> Santa Cruz
+    `);
+
+    await mostrarMenuDistribuidor();
+
+}
+
+/*=========================================================
+                MENÚ EXCLUSIVO DISTRIBUIDOR
+=========================================================*/
+
+async function mostrarMenuDistribuidor(){
+
+    await responder("Este es tu menú exclusivo de distribuidor. ¿Qué deseas consultar?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="menuReporteVentas()">
+                📊 Reporte de ventas diario
+            </button>
+
+            <button onclick="menuPedidosDistribuidor()">
+                📦 Mis pedidos pendientes
+            </button>
+
+            <button onclick="menuPromocionesDistribuidor()">
+                🎉 Promociones vigentes
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                REPORTE DE VENTAS DIARIO
+=========================================================*/
+
+async function menuReporteVentas(){
+
+    escribir("Reporte de ventas diario","user");
+
+    await responder("Claro, puedo mostrarte el reporte de hoy o el de otra fecha que elijas.");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="consultarVentasDia('Hoy')">
+                📅 Ventas de hoy
+            </button>
+
+            <button onclick="pedirFechaVentas()">
+                🗓 Elegir una fecha
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                SELECCIONAR FECHA
+=========================================================*/
+
+function pedirFechaVentas(){
+
+    escribir("Elegir una fecha","user");
+
+    escribir(`
+        Indícame la fecha que deseas consultar.
+
+        <br><br>
+
+        Formato: <b>DD/MM/AAAA</b>
+        <br>
+        Ejemplo: <b>15/08/2026</b>
+
+        <div class="buttons">
+
+            <button onclick="consultarVentasDia('15/08/2026')">
+                Ingresar fecha
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                CONSULTA DE VENTAS
+=========================================================*/
+
+async function consultarVentasDia(fecha){
+
+    escribir(fecha === "Hoy" ? "Ventas de hoy" : fecha,"user");
+
+    await responder("Consultando información de ventas...");
+
+    mostrarTyping();
+
+    await esperar(2500);
+
+    ocultarTyping();
+
+    const periodo = fecha === "Hoy" ? "Hoy, 17/08/2026" : fecha;
+
+    await responder(`
+        📊 <b>Reporte de ventas</b>
+
+        <br><br>
+
+        🗓 <b>Período:</b> ${periodo}
+        <br>
+        🧾 <b>Cantidad de ventas:</b> 18 pedidos
+        <br>
+        💰 <b>Monto total vendido:</b> Bs 12.450
+
+        <br><br>
+
+        Datos actualizados según el último corte del sistema.
+    `);
+
+    await responder("¿Deseas realizar otra consulta?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="menuReporteVentas()">
+                📊 Consultar otra fecha
+            </button>
+
+            <button onclick="mostrarMenuDistribuidor()">
+                📋 Menú distribuidor
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                MIS PEDIDOS
+=========================================================*/
+
+async function menuPedidosDistribuidor(){
+
+    escribir("Mis pedidos","user");
+
+    await responder("Consultando tus pedidos pendientes por entregar...");
+
+    mostrarTyping();
+
+    await esperar(2200);
+
+    ocultarTyping();
+
+    await responder(`
+        📦 <b>Pedidos pendientes por entregar</b>
+
+        <br><br>
+
+        🔸 <b>Pedido N°8452</b> — 20 bolsas de Cemento de Uso General
+        <br>
+        Entrega estimada: 18/08/2026
+
+        <br><br>
+
+        🔸 <b>Pedido N°8460</b> — 10 bolsas de Cemento de Uso Estructural
+        <br>
+        Entrega estimada: 19/08/2026
+
+        <br><br>
+
+        🔸 <b>Pedido N°8471</b> — 50 bolsas de Cemento de Uso Estructural
+        <br>
+        🔸 <b>Pedido N°8471</b> — 20 bolsas de Cemento de Uso General
+        <br>
+        Entrega estimada: 20/08/2026
+    `);
+
+    await responder("¿Deseas realizar otra consulta?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="mostrarMenuDistribuidor()">
+                📋 Menú distribuidor
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                PROMOCIONES VIGENTES
+=========================================================*/
+
+async function menuPromocionesDistribuidor(){
+
+    escribir("Promociones vigentes","user");
+
+    await responder("Estas son las promociones vigentes para distribuidores:");
+
+    mostrarTyping();
+
+    await esperar(2000);
+
+    ocultarTyping();
+
+    await responder(`
+        🎉 <b>Promociones vigentes</b>
+
+        <br><br>
+
+        🔹 <b>2x1 en cemento</b> — Válido hasta 31/08/2026
+        <br><br>
+
+        🔹 <b>15% de descuento</b> en compras mayores a Bs 5.000
+        <br><br>
+
+        🔹 <b>Envío gratis</b> en pedidos dentro de la ciudad
+    `);
+
+    await responder("¿Deseas realizar otra consulta?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="mostrarMenuDistribuidor()">
+                📋 Menú distribuidor
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
     `);
 
 }
