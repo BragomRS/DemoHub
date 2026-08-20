@@ -32,20 +32,16 @@ function iniciarFlujo2(){
 
         <div class="buttons">
 
-            <button onclick="menuConsultarPuntos()">
-                ⭐ Consultar mis puntos
-            </button>
-
-            <button onclick="menuCanjearPuntos()">
-                🎁 Canjear puntos
-            </button>
-
-            <button onclick="menuReportarProblema()">
-                ⚠️ Reportar un problema
+            <button onclick="menuSoyFerreteria()">
+                🏪 Soy ferretería
             </button>
 
             <button onclick="menuDistribuidor()">
                 🧑‍💼 Soy distribuidor
+            </button>
+
+            <button onclick="menuReportarProblema()">
+                ⚠️ Reportar un problema
             </button>
 
         </div>
@@ -54,19 +50,19 @@ function iniciarFlujo2(){
 }
 
 /*=========================================================
-                    CONSULTAR PUNTOS
+                    SOY FERRETERÍA
 =========================================================*/
 
-async function menuConsultarPuntos(){
+async function menuSoyFerreteria(){
 
-    escribir("Consultar mis puntos","user");
+    escribir("Soy ferretería","user");
 
-    await responder("Con gusto.");
+    await responder("Perfecto 👍");
 
-    await responder("Antes necesito validar tu identidad.");
+    await responder("Para identificarte como ferretería necesito validar tus datos.");
 
     escribir(`
-        Ingresa tu código de ferretería.
+        Ingresa el código de tu ferretería.
 
         <div class="buttons">
 
@@ -97,7 +93,99 @@ async function validarCodigoFerreteria(){
 
     await responder("Identidad validada correctamente ✅");
 
-    await consultarPuntos();
+    await mostrarMenuFerreteria();
+
+}
+
+/*=========================================================
+                MENÚ EXCLUSIVO FERRETERÍA
+=========================================================*/
+
+async function mostrarMenuFerreteria(){
+
+    await responder("Este es tu menú de ferretería. ¿Qué deseas hacer?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="consultarPuntos()">
+                ⭐ Consultar mis puntos
+            </button>
+
+            <button onclick="consultarPuntosCanje()">
+                🎁 Canjear puntos
+            </button>
+
+            <button onclick="menuConsultarCompras()">
+                🛒 Consultar mis compras
+            </button>
+
+            <button onclick="menuComprasPendientes()">
+                📦 Mis compras pendientes de entrega
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                CONSULTAR MIS COMPRAS (placeholder)
+=========================================================*/
+
+async function menuConsultarCompras(){
+
+    escribir("Consultar mis compras","user");
+
+    await responder("Esta función estará disponible próximamente.");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="mostrarMenuFerreteria()">
+                🏪 Menú ferretería
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+        MIS COMPRAS PENDIENTES DE ENTREGA (placeholder)
+=========================================================*/
+
+async function menuComprasPendientes(){
+
+    escribir("Mis compras pendientes de entrega","user");
+
+    await responder("Esta función estará disponible próximamente.");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="mostrarMenuFerreteria()">
+                🏪 Menú ferretería
+            </button>
+
+            <button onclick="volverMenuPrincipal()">
+                🏠 Menú principal
+            </button>
+
+            <button onclick="finalizarConversacion()">
+                ❌ Finalizar
+            </button>
+
+        </div>
+    `);
 
 }
 
@@ -132,12 +220,12 @@ async function consultarPuntos(){
     escribir(`
         <div class="buttons">
 
-            <button onclick="menuCanjearPuntos()">
+            <button onclick="consultarPuntosCanje()">
                 🎁 Canjear puntos
             </button>
 
-            <button onclick="menuReportarProblema()">
-                ⚠️ Reportar problema
+            <button onclick="mostrarMenuFerreteria()">
+                🏪 Menú ferretería
             </button>
 
             <button onclick="volverMenuPrincipal()">
@@ -183,54 +271,6 @@ async function finalizarConversacion(){
 
 /*=========================================================
                 CANJEAR PUNTOS
-=========================================================*/
-
-async function menuCanjearPuntos(){
-
-    escribir("Canjear mis puntos","user");
-
-    await responder("Perfecto.");
-
-    await responder("Primero validaré tu identidad.");
-
-    escribir(`
-        Ingresa tu código de ferretería.
-
-        <div class="buttons">
-
-            <button onclick="validarCanje()">
-                Ingresar código
-            </button>
-
-        </div>
-    `);
-
-}
-
-/*=========================================================
-                VALIDACIÓN
-=========================================================*/
-
-async function validarCanje(){
-
-    escribir("Código de ferretería","user");
-
-    await responder("Validando información...");
-
-    mostrarTyping();
-
-    await esperar(2000);
-
-    ocultarTyping();
-
-    await responder("Identidad validada correctamente ✅");
-
-    await consultarPuntosCanje();
-
-}
-
-/*=========================================================
-                CONSULTA DE PUNTOS
 =========================================================*/
 
 async function consultarPuntosCanje(){
@@ -373,8 +413,12 @@ async function confirmarCanje(nombre,puntos){
 
         <div class="buttons">
 
-            <button onclick="menuCanjearPuntos()">
+            <button onclick="consultarPuntosCanje()">
                 🎁 Otro canje
+            </button>
+
+            <button onclick="mostrarMenuFerreteria()">
+                🏪 Menú ferretería
             </button>
 
             <button onclick="volverMenuPrincipal()">
