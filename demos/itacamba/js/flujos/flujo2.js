@@ -17,7 +17,7 @@ function iniciarFlujo2(){
 
 
 /*=========================================================
-    FLUJO ITACAMA
+    FLUJO ITACAMBA
     PARTE 1 - Inicio + Consulta de Puntos
 =========================================================*/
 
@@ -26,7 +26,7 @@ function iniciarFlujo2(){
     escribir(`
         Hola 👋<br><br>
 
-        Bienvenido al programa de fidelización de <b>ITACAMA</b>.<br><br>
+        Bienvenido al programa de fidelización de <b>ITACAMBA</b>.<br><br>
 
         ¿Qué deseas hacer?
 
@@ -459,7 +459,7 @@ async function finalizarConversacion(){
 
     escribir("Finalizar","user");
 
-    await responder("Muchas gracias por comunicarte con ITACAMA.");
+    await responder("Muchas gracias por comunicarte con ITACAMBA.");
 
     await responder("Ha sido un gusto ayudarte 😊");
 
@@ -1106,4 +1106,4 @@ function reiniciarChat(){
 =========================================================*/
 
 // Llama a esta función en lugar de iniciar()
-// iniciarItacama();
+// iniciarItacamba();
