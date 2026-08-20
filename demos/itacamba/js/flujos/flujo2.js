@@ -81,7 +81,7 @@ async function menuSoyFerreteria(){
 
 async function validarCodigoFerreteria(){
 
-    escribir("Código de ferretería","user");
+    escribir("35945621","user");
 
     await responder("Validando información...");
 
@@ -130,17 +130,183 @@ async function mostrarMenuFerreteria(){
 }
 
 /*=========================================================
-                CONSULTAR MIS COMPRAS (placeholder)
+                CONSULTAR MIS COMPRAS
 =========================================================*/
 
 async function menuConsultarCompras(){
 
     escribir("Consultar mis compras","user");
 
-    await responder("Esta función estará disponible próximamente.");
+    await responder("Puedo mostrarte tus compras del mes actual o de un mes específico que elijas.");
 
     escribir(`
         <div class="buttons">
+
+            <button onclick="consultarComprasMes('Agosto 2026')">
+                📅 Compras de este mes
+            </button>
+
+            <button onclick="pedirMesCompras()">
+                🗓 Elegir otro mes
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                SELECCIONAR MES DE COMPRAS
+=========================================================*/
+
+function pedirMesCompras(){
+
+    escribir("Elegir otro mes","user");
+
+    escribir(`
+        Selecciona el mes que deseas consultar.
+
+        <div class="buttons">
+
+            <button onclick="consultarComprasMes('Julio 2026')">
+                Julio 2026
+            </button>
+
+            <button onclick="consultarComprasMes('Junio 2026')">
+                Junio 2026
+            </button>
+
+            <button onclick="consultarComprasMes('Mayo 2026')">
+                Mayo 2026
+            </button>
+
+        </div>
+    `);
+
+}
+
+/*=========================================================
+                DETALLE DE COMPRAS POR MES
+=========================================================*/
+
+const comprasPorMes = {
+
+    "Agosto 2026": {
+        cantidad: 3,
+        monto: "Bs 4.320",
+        detalle: `
+            🔸 <b>Compra N°9012</b> — 15 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 05/08/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°9034</b> — 8 bolsas de Cemento de Uso Estructural
+            <br>
+            Fecha: 12/08/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°9051</b> — 20 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 19/08/2026
+        `
+    },
+
+    "Julio 2026": {
+        cantidad: 3,
+        monto: "Bs 6.150",
+        detalle: `
+            🔸 <b>Compra N°8760</b> — 25 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 03/07/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°8791</b> — 10 bolsas de Cemento de Uso Estructural
+            <br>
+            Fecha: 15/07/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°8815</b> — 12 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 27/07/2026
+        `
+    },
+
+    "Junio 2026": {
+        cantidad: 2,
+        monto: "Bs 2.980",
+        detalle: `
+            🔸 <b>Compra N°8590</b> — 18 bolsas de Cemento de Uso Estructural
+            <br>
+            Fecha: 09/06/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°8612</b> — 10 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 22/06/2026
+        `
+    },
+
+    "Mayo 2026": {
+        cantidad: 2,
+        monto: "Bs 5.410",
+        detalle: `
+            🔸 <b>Compra N°8420</b> — 20 bolsas de Cemento de Uso General
+            <br>
+            Fecha: 04/05/2026
+
+            <br><br>
+
+            🔸 <b>Compra N°8455</b> — 15 bolsas de Cemento de Uso Estructural
+            <br>
+            Fecha: 18/05/2026
+        `
+    }
+
+};
+
+async function consultarComprasMes(mes){
+
+    escribir(mes === "Agosto 2026" ? "Compras de este mes" : mes,"user");
+
+    await responder("Consultando tus compras...");
+
+    mostrarTyping();
+
+    await esperar(2500);
+
+    ocultarTyping();
+
+    const info = comprasPorMes[mes];
+
+    await responder(`
+        🛒 <b>Historial de compras</b>
+
+        <br><br>
+
+        🗓 <b>Período:</b> ${mes}
+        <br>
+        🧾 <b>Cantidad de compras:</b> ${info.cantidad}
+        <br>
+        💰 <b>Monto total:</b> ${info.monto}
+
+        <br><br>
+
+        ${info.detalle}
+    `);
+
+    await responder("¿Deseas realizar otra consulta?");
+
+    escribir(`
+        <div class="buttons">
+
+            <button onclick="menuConsultarCompras()">
+                🛒 Consultar otro mes
+            </button>
 
             <button onclick="mostrarMenuFerreteria()">
                 🏪 Menú ferretería
@@ -160,14 +326,46 @@ async function menuConsultarCompras(){
 }
 
 /*=========================================================
-        MIS COMPRAS PENDIENTES DE ENTREGA (placeholder)
+        MIS COMPRAS PENDIENTES DE ENTREGA
 =========================================================*/
 
 async function menuComprasPendientes(){
 
     escribir("Mis compras pendientes de entrega","user");
 
-    await responder("Esta función estará disponible próximamente.");
+    await responder("Consultando tus compras pendientes de entrega...");
+
+    mostrarTyping();
+
+    await esperar(2200);
+
+    ocultarTyping();
+
+    await responder(`
+        📦 <b>Compras pendientes de entrega</b>
+
+        <br><br>
+
+        🔸 <b>Compra N°9058</b> — 20 bolsas de Cemento de Uso General
+        <br>
+        Entrega estimada: 22/08/2026
+
+        <br><br>
+
+        🔸 <b>Compra N°9061</b> — 12 bolsas de Cemento de Uso Estructural
+        <br>
+        Entrega estimada: 25/08/2026
+
+        <br><br>
+
+        🔸 <b>Compra N°9067</b> — 10 bolsas de Cemento de Uso General
+        <br>
+        🔸 <b>Compra N°9067</b> — 5 bolsas de Cemento de Uso Estructural
+        <br>
+        Entrega estimada: 28/08/2026
+    `);
+
+    await responder("¿Deseas realizar otra consulta?");
 
     escribir(`
         <div class="buttons">
